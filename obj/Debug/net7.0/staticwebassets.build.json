@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "DwO2kml1Rkhke6CjZBExUq3Zr4PwEpfl3bxAwESgH/Q=",
+  "Hash": "88vL3xtoSAEdX52MKzNxNf/PdBFmE+CDk7Do4UGo9CY=",
   "Source": "GlobalErrorApp",
   "BasePath": "_content/GlobalErrorApp",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "GlobalErrorApp\\wwwroot",
+      "Source": "GlobalErrorApp",
+      "ContentRoot": "C:\\Users\\Antoine\\Desktop\\GlobalErrorApp\\wwwroot\\",
+      "BasePath": "_content/GlobalErrorApp",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

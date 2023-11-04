@@ -1,4 +1,5 @@
 ﻿using GlobalErrorApp.Exceptions;
+using Serilog;
 using System.Net;
 using System.Text.Json;
 
@@ -7,9 +8,11 @@ namespace GlobalErrorApp.Configurations
     public class GlobalExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;
-        public GlobalExceptionHandlingMiddleware(RequestDelegate next)
+        private readonly ILogger<GlobalExceptionHandlingMiddleware> _logger;
+        public GlobalExceptionHandlingMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlingMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
         public async Task Invoke(HttpContext context)
         {
@@ -22,7 +25,7 @@ namespace GlobalErrorApp.Configurations
                 await HandleExceptionAsync(context, ex);
             }
         }
-        private static Task HandleExceptionAsync(HttpContext context, Exception ex)
+        private Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
             HttpStatusCode status;
             var stackTrace = string.Empty;
@@ -67,6 +70,7 @@ namespace GlobalErrorApp.Configurations
             var exceptionResult = JsonSerializer.Serialize(new { error = message, stackTrace });
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)status;
+            _logger.LogError(exceptionResult, ex);
             return context.Response.WriteAsync(exceptionResult);
         }
     }

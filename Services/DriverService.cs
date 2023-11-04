@@ -1,6 +1,7 @@
 ﻿using GlobalErrorApp.Data;
 using GlobalErrorApp.IServices;
 using GlobalErrorApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GlobalErrorApp.Services
 {
@@ -34,9 +35,9 @@ namespace GlobalErrorApp.Services
             return await _context.Drivers.FindAsync(id);
         }
 
-        public Task<IEnumerable<Driver>> GetDrivers()
+        public async Task<IEnumerable<Driver>> GetDrivers()
         {
-            throw new NotImplementedException();
+            return await _context.Drivers.ToListAsync();
         }
 
         public async Task<Driver> UpdateDriver(Driver driver)

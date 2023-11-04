@@ -3,6 +3,7 @@ using GlobalErrorApp.IServices;
 using GlobalErrorApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GlobalErrorApp.Controllers
 {
@@ -11,13 +12,16 @@ namespace GlobalErrorApp.Controllers
     public class DriversController : ControllerBase
     {
         private readonly IDriverService _driverService;
-        public DriversController(IDriverService driverService)
+        private readonly ILogger<DriversController> _logger;
+        public DriversController(IDriverService driverService, ILogger<DriversController> logger)
         {
             _driverService = driverService;
+            _logger = logger;
         }
         [HttpGet("DriverList")]
         public async Task<IActionResult> DriverList()
         {
+            _logger.LogInformation("Driver list action is executing");
             var result = await _driverService.GetDrivers();
             return Ok(result);
         }
