@@ -16,19 +16,6 @@ using Serilog.Sinks.RollingFile;
 var builder = WebApplication.CreateBuilder(args);
 var logger = new LoggerConfiguration()
   .ReadFrom.Configuration(builder.Configuration)
-  .Enrich.WithExceptionDetails(new DestructuringOptionsBuilder()
-    .WithDefaultDestructurers()
-    .WithDestructurers(new List<IExceptionDestructurer> { new SqlExceptionDestructurer(), new DbUpdateExceptionDestructurer() }))
-  .MinimumLevel.Information()
-  .WriteTo.MSSqlServer(builder.Configuration.GetConnectionString("SqlDatabaseConnectionString"), new MSSqlServerSinkOptions
-  {
-      TableName = "Logs",
-      SchemaName = "dbo",
-      AutoCreateSqlTable = true
-  })
-  .WriteTo.Sink(new RollingFileSink(
-        @"C:\logs",
-        new JsonFormatter(renderMessage: true), null, null))
   .CreateLogger();
 
 // Add services to the container.
